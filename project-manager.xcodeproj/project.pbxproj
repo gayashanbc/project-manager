@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7458D54E2291B39E00FF7784 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7458D54D2291B39E00FF7784 /* Commons.swift */; };
 		74E5552F228D8C0F00B94C58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E5552E228D8C0F00B94C58 /* AppDelegate.swift */; };
 		74E55534228D8C0F00B94C58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74E55532228D8C0F00B94C58 /* Main.storyboard */; };
 		74E55537228D8C0F00B94C58 /* project_manager.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74E55535228D8C0F00B94C58 /* project_manager.xcdatamodeld */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7458D54D2291B39E00FF7784 /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		74E5552B228D8C0F00B94C58 /* project-manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "project-manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E5552E228D8C0F00B94C58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		74E55533228D8C0F00B94C58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 			children = (
 				74E55547228DF5C800B94C58 /* Models */,
 				74E5552E228D8C0F00B94C58 /* AppDelegate.swift */,
+				7458D54D2291B39E00FF7784 /* Commons.swift */,
 				74E55543228D8EFF00B94C58 /* MasterViewController.swift */,
 				74E55532228D8C0F00B94C58 /* Main.storyboard */,
 				74E55538228D8C1000B94C58 /* Assets.xcassets */,
@@ -151,6 +154,7 @@
 			files = (
 				74E55537228D8C0F00B94C58 /* project_manager.xcdatamodeld in Sources */,
 				74E5552F228D8C0F00B94C58 /* AppDelegate.swift in Sources */,
+				7458D54E2291B39E00FF7784 /* Commons.swift in Sources */,
 				74E55544228D8EFF00B94C58 /* MasterViewController.swift in Sources */,
 				74E55546228D90DC00B94C58 /* DetailViewController.swift in Sources */,
 			);
