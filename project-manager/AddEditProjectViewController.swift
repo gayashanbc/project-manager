@@ -15,15 +15,9 @@ class AddEditProjectViewController: UIViewController {
     @IBOutlet weak var dueDatePicker: UIDatePicker!
     @IBOutlet weak var prioritySegmentControl: UISegmentedControl!
     @IBOutlet weak var addToCalendarToggle: UISwitch!
-    @IBOutlet weak var priorityStackView: UIStackView!
     
-    typealias saveFunctionType = (_ viewController: UIViewController) -> Void
-    typealias resetToDefaultsFunctionType = () -> Void
-    
-    var viewTitle: String?
-    var hasPriorityStackView: Bool? = true
-    var saveFunction: saveFunctionType?
-    var resetToDefaults: resetToDefaultsFunctionType?
+    var saveFunction: Utilities.saveFunctionType?
+    var resetToDefaults: Utilities.resetToDefaultsFunctionType?
     var projectPlaceholder: Project?
     var isEditView: Bool?
     
@@ -32,11 +26,9 @@ class AddEditProjectViewController: UIViewController {
         super.viewDidLoad()
         guard let isEditMode = isEditView else { return }
 
-        viewTitleLabel.text = isEditMode ? "Edit " + viewTitle! : "Add " + viewTitle!
+        viewTitleLabel.text = isEditMode ? "Edit Project" : "Add Project"
         dueDatePicker.minimumDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())
-        if hasPriorityStackView == false {
-            priorityStackView.removeFromSuperview()
-        }
+
         
         if let project = projectPlaceholder  {
             titleTextField.text = project.title
@@ -59,6 +51,9 @@ class AddEditProjectViewController: UIViewController {
         
         if validateFields() {
             save(self)
+            if let reset = resetToDefaults {
+                reset()
+            }
             self.dismiss(animated: true, completion: nil)
         }
     }

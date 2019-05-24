@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		744487262293EB400006A7CE /* AddEditProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744487252293EB400006A7CE /* AddEditProjectViewController.swift */; };
 		7458D54E2291B39E00FF7784 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7458D54D2291B39E00FF7784 /* Commons.swift */; };
+		74E1905922987C93009C12D3 /* AddEditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E1905822987C93009C12D3 /* AddEditTaskViewController.swift */; };
 		74E5552F228D8C0F00B94C58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E5552E228D8C0F00B94C58 /* AppDelegate.swift */; };
 		74E55534228D8C0F00B94C58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74E55532228D8C0F00B94C58 /* Main.storyboard */; };
 		74E55537228D8C0F00B94C58 /* project_manager.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74E55535228D8C0F00B94C58 /* project_manager.xcdatamodeld */; };
@@ -16,11 +17,15 @@
 		74E5553C228D8C1000B94C58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74E5553A228D8C1000B94C58 /* LaunchScreen.storyboard */; };
 		74E55544228D8EFF00B94C58 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E55543228D8EFF00B94C58 /* MasterViewController.swift */; };
 		74E55546228D90DC00B94C58 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E55545228D90DC00B94C58 /* DetailViewController.swift */; };
+		B21057FC369F4C2C6812DD8A /* Pods_project_manager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6D0BDFA8F18EA6F9165F78 /* Pods_project_manager.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		155BE5452E9308832EA369B4 /* Pods-project-manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-project-manager.debug.xcconfig"; path = "Target Support Files/Pods-project-manager/Pods-project-manager.debug.xcconfig"; sourceTree = "<group>"; };
+		5B910C753DCC96B05531E727 /* Pods-project-manager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-project-manager.release.xcconfig"; path = "Target Support Files/Pods-project-manager/Pods-project-manager.release.xcconfig"; sourceTree = "<group>"; };
 		744487252293EB400006A7CE /* AddEditProjectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditProjectViewController.swift; sourceTree = "<group>"; };
 		7458D54D2291B39E00FF7784 /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
+		74E1905822987C93009C12D3 /* AddEditTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTaskViewController.swift; sourceTree = "<group>"; };
 		74E5552B228D8C0F00B94C58 /* project-manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "project-manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E5552E228D8C0F00B94C58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		74E55533228D8C0F00B94C58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -30,6 +35,7 @@
 		74E5553D228D8C1000B94C58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74E55543228D8EFF00B94C58 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		74E55545228D90DC00B94C58 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		7A6D0BDFA8F18EA6F9165F78 /* Pods_project_manager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_project_manager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B21057FC369F4C2C6812DD8A /* Pods_project_manager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +55,8 @@
 			children = (
 				74E5552D228D8C0F00B94C58 /* project-manager */,
 				74E5552C228D8C0F00B94C58 /* Products */,
+				AD6137E71BD50C02EBF5F4F2 /* Pods */,
+				A0EBC7F92BA009C421D8A860 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -68,6 +77,7 @@
 				7458D54D2291B39E00FF7784 /* Commons.swift */,
 				74E55543228D8EFF00B94C58 /* MasterViewController.swift */,
 				74E55532228D8C0F00B94C58 /* Main.storyboard */,
+				74E1905822987C93009C12D3 /* AddEditTaskViewController.swift */,
 				74E55538228D8C1000B94C58 /* Assets.xcassets */,
 				74E5553A228D8C1000B94C58 /* LaunchScreen.storyboard */,
 				74E5553D228D8C1000B94C58 /* Info.plist */,
@@ -84,6 +94,23 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		A0EBC7F92BA009C421D8A860 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7A6D0BDFA8F18EA6F9165F78 /* Pods_project_manager.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AD6137E71BD50C02EBF5F4F2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				155BE5452E9308832EA369B4 /* Pods-project-manager.debug.xcconfig */,
+				5B910C753DCC96B05531E727 /* Pods-project-manager.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -91,9 +118,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 74E55540228D8C1000B94C58 /* Build configuration list for PBXNativeTarget "project-manager" */;
 			buildPhases = (
+				FE5F8ACCBBEB23065453B72B /* [CP] Check Pods Manifest.lock */,
 				74E55527228D8C0F00B94C58 /* Sources */,
 				74E55528228D8C0F00B94C58 /* Frameworks */,
 				74E55529228D8C0F00B94C58 /* Resources */,
+				60CDFC8FC7636AA401DB10C0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -150,6 +179,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		60CDFC8FC7636AA401DB10C0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-project-manager/Pods-project-manager-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CircleProgressBar/CircleProgressBar.framework",
+				"${BUILT_PRODUCTS_DIR}/YLProgressBar/YLProgressBar.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CircleProgressBar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YLProgressBar.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-project-manager/Pods-project-manager-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE5F8ACCBBEB23065453B72B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-project-manager-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		74E55527228D8C0F00B94C58 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -157,6 +235,7 @@
 			files = (
 				74E55537228D8C0F00B94C58 /* project_manager.xcdatamodeld in Sources */,
 				74E5552F228D8C0F00B94C58 /* AppDelegate.swift in Sources */,
+				74E1905922987C93009C12D3 /* AddEditTaskViewController.swift in Sources */,
 				7458D54E2291B39E00FF7784 /* Commons.swift in Sources */,
 				74E55544228D8EFF00B94C58 /* MasterViewController.swift in Sources */,
 				744487262293EB400006A7CE /* AddEditProjectViewController.swift in Sources */,
@@ -304,10 +383,12 @@
 		};
 		74E55541228D8C1000B94C58 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 155BE5452E9308832EA369B4 /* Pods-project-manager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "project-manager/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -315,16 +396,18 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gayashan.project-manager";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
 		74E55542228D8C1000B94C58 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B910C753DCC96B05531E727 /* Pods-project-manager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "project-manager/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -332,7 +415,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gayashan.project-manager";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

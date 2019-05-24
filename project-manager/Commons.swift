@@ -13,6 +13,8 @@ class Utilities {
     static var alert: UIAlertController!
     
     typealias actionHandler = ()  -> Void
+    typealias saveFunctionType = (_ viewController: UIViewController) -> Void
+    typealias resetToDefaultsFunctionType = () -> Void
     
     static func showConfirmationAlert (title: String, message: String, yesAction: @escaping actionHandler = {() in}, noAction: @escaping actionHandler = {() in}, caller: UIViewController) {
         alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
