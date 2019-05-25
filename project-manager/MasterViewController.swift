@@ -27,19 +27,43 @@ enum ProjectPriority: Int {
 struct Project {
     var id: String
     var title: String
-    var dueDate: Date
     var priority: ProjectPriority
     var notes: String
     var eventIdentifier: String?
     var isAddedToCalendar = false
     
-    init(title: String, dueDate: Date, priority: ProjectPriority, notes: String) {
+    private var _startDate: Date
+    var startDate: Date {
+        get {
+            return Calendar.current.date(bySetting: .hour, value: 0, of: _startDate)!
+        }
+        set(newDate) {
+            _startDate = Calendar.current.date(bySetting: .hour, value: 0, of: newDate)!
+        }
+    }
+    
+    private var _dueDate: Date
+    var dueDate: Date {
+        get {
+            return Calendar.current.date(bySetting: .hour, value: 1, of: _dueDate)!
+        }
+        set(newDate) {
+            _dueDate = Calendar.current.date(bySetting: .hour, value: 1, of: newDate)!
+        }
+    }
+    
+    init(title: String, startDate: Date, dueDate: Date, priority: ProjectPriority, notes: String) {
         self.id = UUID().uuidString
         self.title = title
-        self.dueDate = dueDate
+        _startDate = startDate
+        _dueDate = dueDate
         self.priority = priority
         self.notes = notes
     }
+}
+
+protocol ProjectSelectionDelegate: class {
+    func projectSelected(_ newProject: Project)
 }
 
 class ProjectCell: UITableViewCell {
@@ -53,6 +77,7 @@ class MasterViewController: UITableViewController {
     
     @IBOutlet weak var addProjectButton: UIBarButtonItem!
     
+    weak var delegate: ProjectSelectionDelegate?
     var projects: [Project]!
     var projectPlaceholder: Project?
     var isEditView: Bool = false
@@ -60,9 +85,8 @@ class MasterViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        projects = Array(repeating: Project.init(title: "Final Year Project", dueDate: Date(), priority: .High, notes: "Something has to be done on time before it ends."), count: 3)
+        projects = Array(repeating: Project.init(title: "Final Year Project", startDate: Date(), dueDate: Date(), priority: .High, notes: "Something has to be done on time before it ends."), count: 3)
         
-        print(projects!)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -85,11 +109,17 @@ class MasterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return projects.count
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedProject = projects[indexPath.row]
+        delegate?.projectSelected(selectedProject)
+    }
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell") as! ProjectCell
         let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(identifier: "UTC")
         formatter.dateFormat = "dd/MM/yy"
         
         cell.titleLabel.text = projects[indexPath.row].title
@@ -132,15 +162,12 @@ class MasterViewController: UITableViewController {
         return action
     }
     
-    func addProject() -> Bool {
-        return true
-    }
-    
     // TODO: Show an alert when succesfully saved
     func saveProject(_ data: AddEditProjectViewController) {
         if var project = projectPlaceholder {
             project.title = data.titleTextField.text!
-            project.dueDate = data.dueDatePicker.date
+            project.startDate = data.startDate!
+            project.dueDate = data.dueDate!
             project.priority = assignPriority(for: data.prioritySegmentControl.selectedSegmentIndex)
             project.notes = data.notesTextField.text!
             
@@ -156,7 +183,8 @@ class MasterViewController: UITableViewController {
             var project =
                 Project(
                     title: data.titleTextField.text!,
-                    dueDate: data.dueDatePicker.date,
+                    startDate: data.startDate!,
+                    dueDate: data.dueDate!,
                     priority: assignPriority(for: data.prioritySegmentControl.selectedSegmentIndex),
                     notes: data.notesTextField.text!)
             
@@ -191,10 +219,10 @@ class MasterViewController: UITableViewController {
                 
                 // TODO: Fix same date error when saving
                 event.title = project.title
-                event.startDate = Date()
+                event.startDate = project.startDate
                 event.endDate = project.dueDate
                 event.notes = project.notes
-                event.calendar = eventStore.defaultCalendarForNewEvents
+                event.calendar = eventStore.defaultCalendarForNewEvents 
                 
                 do {
                     try eventStore.save(event, span: .thisEvent)

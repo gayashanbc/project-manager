@@ -444,7 +444,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="hBR-5b-CMj">
-                                                <rect key="frame" x="0.0" y="83.5" width="290" height="61"/>
+                                                <rect key="frame" x="0.0" y="82" width="290" height="61"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ejW-Hs-GLK">
                                                         <rect key="frame" x="0.0" y="0.0" width="290" height="30"/>
@@ -465,22 +465,40 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="xie-Wv-76J">
-                                                <rect key="frame" x="0.0" y="167.5" width="290" height="141.5"/>
+                                                <rect key="frame" x="0.0" y="164.5" width="290" height="149"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qfv-Cl-TmR">
-                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="20.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="RSU-oH-udd">
+                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="28"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qfv-Cl-TmR">
+                                                                <rect key="frame" x="0.0" y="0.0" width="145" height="28"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="nEI-PR-HM5">
+                                                                <rect key="frame" x="145" y="0.0" width="145" height="29"/>
+                                                                <segments>
+                                                                    <segment title="Start"/>
+                                                                    <segment title="Due"/>
+                                                                </segments>
+                                                                <connections>
+                                                                    <action selector="dateSegmentControlValueChanged:" destination="dbG-cN-CNd" eventType="valueChanged" id="c84-hh-6yE"/>
+                                                                </connections>
+                                                            </segmentedControl>
+                                                        </subviews>
+                                                    </stackView>
                                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="od7-Wk-7RC">
-                                                        <rect key="frame" x="0.0" y="21.5" width="290" height="120"/>
+                                                        <rect key="frame" x="0.0" y="29" width="290" height="120"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="120" id="EKf-rs-d3k"/>
                                                         </constraints>
                                                         <date key="date" timeIntervalSinceReferenceDate="580150799.58785498">
                                                             <!--2019-05-21 16:59:59 +0000-->
                                                         </date>
+                                                        <connections>
+                                                            <action selector="datePickerValueChanged:" destination="dbG-cN-CNd" eventType="valueChanged" id="Olb-lX-81v"/>
+                                                        </connections>
                                                     </datePicker>
                                                 </subviews>
                                                 <constraints>
@@ -489,7 +507,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="BaQ-og-Kka">
-                                                <rect key="frame" x="0.0" y="331.5" width="290" height="61"/>
+                                                <rect key="frame" x="0.0" y="334.5" width="290" height="61"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Progress = 0%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVM-Z9-aSr">
                                                         <rect key="frame" x="0.0" y="0.0" width="290" height="30"/>
@@ -506,7 +524,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="hQh-kN-8qO">
-                                                <rect key="frame" x="0.0" y="415.5" width="290" height="31"/>
+                                                <rect key="frame" x="0.0" y="417" width="290" height="31"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Notification" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBN-Yi-DDV">
                                                         <rect key="frame" x="0.0" y="0.0" width="123" height="31"/>
@@ -574,7 +592,8 @@
                     <value key="contentSizeForViewInPopover" type="size" width="320" height="568"/>
                     <connections>
                         <outlet property="addNotificationToggle" destination="bFt-p9-U8F" id="c8R-CW-7lp"/>
-                        <outlet property="dueDatePicker" destination="od7-Wk-7RC" id="x0Y-QT-A7z"/>
+                        <outlet property="datePicker" destination="od7-Wk-7RC" id="RSb-C1-aFr"/>
+                        <outlet property="dateSegmentControl" destination="nEI-PR-HM5" id="5Qk-l6-4d9"/>
                         <outlet property="notesTextField" destination="AUY-g4-So0" id="rGx-tg-gpv"/>
                         <outlet property="progressSlider" destination="lkG-BN-gpP" id="jXQ-8P-ywh"/>
                         <outlet property="progressTitleLabel" destination="bVM-Z9-aSr" id="Cmy-Nc-kW6"/>
@@ -622,7 +641,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="bIS-ba-E06">
-                                                <rect key="frame" x="0.0" y="84.5" width="290" height="61"/>
+                                                <rect key="frame" x="0.0" y="83" width="290" height="61"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xji-Be-BFk">
                                                         <rect key="frame" x="0.0" y="0.0" width="290" height="30"/>
@@ -643,22 +662,40 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="CcT-x5-DRT">
-                                                <rect key="frame" x="0.0" y="169" width="290" height="141.5"/>
+                                                <rect key="frame" x="0.0" y="166" width="290" height="149"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mUl-B5-D7l">
-                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="20.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="18x-Ky-NSp">
+                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="28"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mUl-B5-D7l">
+                                                                <rect key="frame" x="0.0" y="0.0" width="145" height="28"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="nbk-nA-fOL">
+                                                                <rect key="frame" x="145" y="0.0" width="145" height="29"/>
+                                                                <segments>
+                                                                    <segment title="Start"/>
+                                                                    <segment title="Due"/>
+                                                                </segments>
+                                                                <connections>
+                                                                    <action selector="dataSegmentControlValueChanged:" destination="gaU-PX-hh8" eventType="valueChanged" id="Hl2-80-uG3"/>
+                                                                </connections>
+                                                            </segmentedControl>
+                                                        </subviews>
+                                                    </stackView>
                                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="8UX-8K-gOb">
-                                                        <rect key="frame" x="0.0" y="21.5" width="290" height="120"/>
+                                                        <rect key="frame" x="0.0" y="29" width="290" height="120"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="120" id="1wo-xj-on8"/>
                                                         </constraints>
                                                         <date key="date" timeIntervalSinceReferenceDate="580150799.58785498">
                                                             <!--2019-05-21 16:59:59 +0000-->
                                                         </date>
+                                                        <connections>
+                                                            <action selector="datePickerValueChanged:" destination="gaU-PX-hh8" eventType="valueChanged" id="5d9-sH-uKb"/>
+                                                        </connections>
                                                     </datePicker>
                                                 </subviews>
                                                 <constraints>
@@ -667,7 +704,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="NzS-TN-Onz">
-                                                <rect key="frame" x="0.0" y="334" width="290" height="57"/>
+                                                <rect key="frame" x="0.0" y="337" width="290" height="57"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prioriry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ktl-5c-TMh">
                                                         <rect key="frame" x="0.0" y="0.0" width="290" height="28"/>
@@ -690,7 +727,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="YB2-I7-nBy">
-                                                <rect key="frame" x="0.0" y="414.5" width="290" height="31"/>
+                                                <rect key="frame" x="0.0" y="416" width="290" height="31"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add to Calendar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sxu-Lk-gk6">
                                                         <rect key="frame" x="0.0" y="0.0" width="123.5" height="31"/>
@@ -755,7 +792,8 @@
                     <value key="contentSizeForViewInPopover" type="size" width="320" height="568"/>
                     <connections>
                         <outlet property="addToCalendarToggle" destination="iW2-RY-TcW" id="ZKu-rb-kX8"/>
-                        <outlet property="dueDatePicker" destination="8UX-8K-gOb" id="dZ4-t7-t7c"/>
+                        <outlet property="datePicker" destination="8UX-8K-gOb" id="M9d-Os-FgA"/>
+                        <outlet property="dateSegmentControl" destination="nbk-nA-fOL" id="p6W-P5-SQQ"/>
                         <outlet property="notesTextField" destination="y7x-kd-PmH" id="5Mw-XG-fbV"/>
                         <outlet property="prioritySegmentControl" destination="5uc-cA-72C" id="f7B-Zf-tYD"/>
                         <outlet property="titleTextField" destination="z09-Wi-CPP" id="4Wx-CZ-ruN"/>

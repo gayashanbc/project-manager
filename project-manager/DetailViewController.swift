@@ -14,16 +14,36 @@ struct Task {
     var id: String
     var projectId: String
     var title: String
-    var dueDate: Date
     var progress: Float
     var notes: String
     var isAddedNotification = false
     
-    init(projectId: String, title: String, dueDate: Date, progress: Float, notes: String) {
+    private var _startDate: Date
+    var startDate: Date {
+        get {
+            return Calendar.current.date(bySetting: .hour, value: 0, of: _startDate)!
+        }
+        set(newDate) {
+            _startDate = Calendar.current.date(bySetting: .hour, value: 0, of: newDate)!
+        }
+    }
+    
+    private var _dueDate: Date
+    var dueDate: Date {
+        get {
+            return Calendar.current.date(bySetting: .hour, value: 1, of: _dueDate)!
+        }
+        set(newDate) {
+            _dueDate = Calendar.current.date(bySetting: .hour, value: 1, of: newDate)!
+        }
+    }
+    
+    init(projectId: String, title: String, startDate: Date, dueDate: Date, progress: Float, notes: String) {
         self.id = UUID().uuidString
         self.projectId = "12345"
         self.title = title
-        self.dueDate = dueDate
+        _startDate = startDate
+        _dueDate = dueDate
         self.progress = progress
         self.notes = notes
         print(progress)
@@ -53,6 +73,11 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var tasks: [Task]!
     var taskPlaceholder: Task?
     var isEditView: Bool = false
+    var project: Project? {
+        didSet {
+            refreshUI()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +100,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return String.init(format: "%.0f", arguments: [progress * 100])
         }
         
-        tasks = Array(repeating: Task.init(projectId: "12345", title: "Welcome to Sri Lanka", dueDate: Date(), progress: 10, notes: "Some notes about this task"), count: 3)
+        tasks = Array(repeating: Task.init(projectId: "12345", title: "Welcome to Sri Lanka", startDate: Date(), dueDate: Date(), progress: 10, notes: "Some notes about this task"), count: 3)
         
     }
     
@@ -103,6 +128,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell") as! TaskCell
         let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(identifier: "UTC")
         formatter.dateFormat = "yyyy-MM-dd"
         
         cell.progressBar.type = .flat
@@ -165,7 +191,8 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func saveTask(_ data: AddEditTaskViewController) {
         if var task = taskPlaceholder {
             task.title = data.titleTextField.text!
-            task.dueDate = data.dueDatePicker.date
+            task.startDate = data.startDate!
+            task.dueDate = data.dueDate!
             task.progress = data.progressSlider.value
             task.notes = data.notesTextField.text!
             
@@ -182,7 +209,8 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 Task(
                     projectId: "12345",
                     title: data.titleTextField.text!,
-                    dueDate: data.dueDatePicker.date,
+                    startDate: data.startDate!,
+                    dueDate: data.dueDate!,
                     progress: data.progressSlider.value,
                     notes: data.notesTextField.text!)
             
@@ -207,8 +235,29 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let date1 = calendar.startOfDay(for: firstDate)
         let date2 = calendar.startOfDay(for: secondDate)
         
+        // TODO: Remove this
         print(calendar.dateComponents([.day], from: date1, to: date2).day!)
         
         return Float(calendar.dateComponents([.day], from: date1, to: date2).day!)
+    }
+    
+    func refreshUI() {
+        loadViewIfNeeded()
+        if let selectedProject = project {
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone(identifier: "UTC")
+            formatter.dateFormat = "yyyy-MM-dd"
+            
+            projectTitleLabel.text = selectedProject.title
+            projectMetaLabel.text = (selectedProject.priority.getAsString()) + " | " + formatter.string(from: selectedProject.dueDate)
+            projectNotesLabel.text = selectedProject.notes
+        }
+        
+    }
+}
+
+extension DetailViewController: ProjectSelectionDelegate {
+    func projectSelected(_ newProject: Project) {
+        project = newProject
     }
 }
