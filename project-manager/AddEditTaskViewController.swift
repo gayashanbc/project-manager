@@ -39,6 +39,8 @@ class AddEditTaskViewController: UIViewController {
         startDate = Calendar.current.date(bySetting: .hour, value: 0, of: Date())
         dueDate = Calendar.current.date(bySetting: .hour, value: 1, of: Date())
         
+        datePicker.date = startDate!
+        
         if let task = taskPlaceholder  {
             titleTextField.text = task.title
             notesTextField.text = task.notes
