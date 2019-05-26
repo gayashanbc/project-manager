@@ -35,6 +35,8 @@ class AddEditProjectViewController: UIViewController {
         startDate = Calendar.current.date(bySetting: .hour, value: 0, of: Date())
         dueDate = Calendar.current.date(bySetting: .hour, value: 1, of: Date())
         
+        datePicker.date = startDate!
+        
         if let project = projectPlaceholder  {
             titleTextField.text = project.title
             notesTextField.text = project.notes

@@ -69,13 +69,9 @@ class DetailViewController: UIViewController {
         }
         daysRemainingCircleView.progressBarProgressColor = nil
         addTaskButton.isEnabled = false
+        
         if let selectedProject = project {
-            
-            print("Hello")
-            print("Hello")
-            print("Hello")
             tasks = Utilities.fetchFromDBContext(entityName: "Task", predicate: NSPredicate(format: "project.projectId = %@", selectedProject.projectId!))
-            print(tasks!)
         } else {
             tasks = Array()
         }
@@ -140,10 +136,6 @@ class DetailViewController: UIViewController {
     }
 
     func addNotification(for task: Task) {
-        let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(identifier: "UTC")
-        formatter.dateFormat = "yyyy-MM-dd"
-        
         let center = UNUserNotificationCenter.current()
         
         center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
@@ -154,7 +146,7 @@ class DetailViewController: UIViewController {
         
         let content = UNMutableNotificationContent()
         content.title = "Project: " + task.project!.title!
-        content.body = "The following task has not been completed on time.\nTask: " + task.title! + "\nDue Date: " + formatter.string(from: task.dueDateRaw!)
+        content.body = "The following task has not been completed on time.\nTask: " + task.title! + "\nDue Date: " + Utilities.getFormattedDateString(for: task.dueDate, format: "yyyy-MM-dd")
         
         
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: task.dueDate)
@@ -175,12 +167,9 @@ class DetailViewController: UIViewController {
     func refreshUI() {
         loadViewIfNeeded()
         if let selectedProject = project {
-            let formatter = DateFormatter()
-            formatter.timeZone = TimeZone(identifier: "UTC")
-            formatter.dateFormat = "yyyy-MM-dd"
             
             projectTitleLabel.text = selectedProject.title
-            projectMetaLabel.text = (selectedProject.priority.getAsString()) + " Priority | Due " + formatter.string(from: selectedProject.dueDate)
+            projectMetaLabel.text = (selectedProject.priority.getAsString()) + " Priority | Due " + Utilities.getFormattedDateString(for: selectedProject.dueDate, format: "yyyy-MM-dd")
             projectNotesLabel.text = "Notes: " + selectedProject.notes!
             percentageCircleView.setProgress(CGFloat(selectedProject.progress.value), animated: true, duration: 1)
             percentageCircleView.progressBarProgressColor = selectedProject.progress.color
@@ -190,7 +179,6 @@ class DetailViewController: UIViewController {
             tasks = Utilities.fetchFromDBContext(entityName: "Task", predicate: NSPredicate(format: "project.projectId = %@", selectedProject.projectId!))
             tasksTableView.reloadData()
             addTaskButton.isEnabled = true
-            print(tasks!)
         }
         
     }
@@ -203,12 +191,6 @@ extension DetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell") as! TaskCell
-        let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(identifier: "UTC")
-        formatter.dateFormat = "yyyy-MM-dd"
-        
-        print("taks progress is \(tasks[indexPath.row].progress )")
-        
         
         cell.progressBar.setProgress(CGFloat(tasks[indexPath.row].progress), animated: true)
         cell.progressBar.trackTintColor = .gray
@@ -216,7 +198,7 @@ extension DetailViewController: UITableViewDataSource {
         cell.progressBar.indicatorTextDisplayMode = .fixedRight
         
         cell.titleLabel.text = tasks[indexPath.row].title
-        cell.dueDateLabel.text = formatter.string(from: tasks[indexPath.row].dueDate)
+        cell.dueDateLabel.text = Utilities.getFormattedDateString(for: tasks[indexPath.row].dueDate, format: "yyyy-MM-dd")
         cell.notesLabel.text = tasks[indexPath.row].notes
         cell.taskIdLabel.text = String(indexPath.row + 1)
         

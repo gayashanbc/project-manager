@@ -29,8 +29,6 @@ class MasterViewController: UITableViewController {
     var projects: [Project]!
     var projectPlaceholder: Project?
     var isEditView: Bool = false
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,15 +65,13 @@ class MasterViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell") as! ProjectCell
-        let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(identifier: "UTC")
-        formatter.dateFormat = "dd/MM/yy"
         
         cell.titleLabel.text = projects[indexPath.row].title
-        cell.dueDateLabel.text = formatter.string(from: projects[indexPath.row].dueDate)
+        cell.dueDateLabel.text = Utilities.getFormattedDateString(for: projects[indexPath.row].dueDate, format: "dd/MM/yy")
         cell.priorityLabel.text = projects[indexPath.row].priority.getAsString()
         cell.notesLabel.text = projects[indexPath.row].notes
         cell.progressIndicatorView.backgroundColor = projects[indexPath.row].progress.color
+        
         return cell
     }
     
@@ -167,7 +163,6 @@ class MasterViewController: UITableViewController {
             if (granted) && (error == nil) {
                 let event: EKEvent = EKEvent(eventStore: eventStore)
                 
-                // TODO: Fix same date error when saving
                 event.title = project.title
                 event.startDate = project.startDate
                 event.endDate = project.dueDate
@@ -177,11 +172,11 @@ class MasterViewController: UITableViewController {
                 do {
                     try eventStore.save(event, span: .thisEvent)
                 } catch let error as NSError {
-                    preconditionFailure("Failed to save event with error : \(error)")
+                    fatalError("Failed to save event with error : \(error)")
                 }
             }
             else {
-                preconditionFailure("Failed to save event with error : \(String(describing: error)) or access not granted")
+                fatalError("Failed to save event with error : \(String(describing: error)) or access not granted")
             }
         }
     }

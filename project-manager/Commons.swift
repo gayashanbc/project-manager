@@ -17,6 +17,7 @@ protocol ItemActionDelegate: class {
 class Utilities {
     
     static var alert: UIAlertController!
+    static let dateFormatter = DateFormatter()
     
     typealias actionHandler = ()  -> Void
     typealias saveFunctionType = (_ viewController: UIViewController) -> Void
@@ -51,7 +52,6 @@ class Utilities {
         
         do {
             let results = try Utilities.getDBContext().fetch(request)
-      //      print(results)
             return results
         } catch {
             fatalError("Unresolved error while loading the context \(error)")
@@ -94,5 +94,11 @@ class Utilities {
         } else {
             return .blue
         }
+    }
+    
+    static func getFormattedDateString(for date: Date, format: String) -> String {
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: date)
     }
 }

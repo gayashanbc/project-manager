@@ -55,7 +55,6 @@ class AddEditTaskViewController: UIViewController {
             datePicker.maximumDate = task.project?.dueDate
         }
         
-        
         titleTextField.becomeFirstResponder()
     }
     
