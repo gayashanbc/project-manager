@@ -9,59 +9,6 @@
 import UIKit
 import EventKit
 
-enum ProjectPriority: Int {
-    case Low, Medium, High
-    
-    func getAsString() -> String {
-        switch self {
-        case .High:
-            return "High"
-        case .Medium:
-            return "Medium"
-        default:
-            return "Low"
-        }
-    }
-}
-
-struct Project {
-    var id: String
-    var title: String
-    var priority: ProjectPriority
-    var notes: String
-    var eventIdentifier: String?
-    var isAddedToCalendar = false
-    
-    private var _startDate: Date
-    var startDate: Date {
-        get {
-            return Calendar.current.date(bySetting: .hour, value: 0, of: _startDate)!
-        }
-        set(newDate) {
-            _startDate = Calendar.current.date(bySetting: .hour, value: 0, of: newDate)!
-        }
-    }
-    
-    private var _dueDate: Date
-    var dueDate: Date {
-        get {
-            return Calendar.current.date(bySetting: .hour, value: 1, of: _dueDate)!
-        }
-        set(newDate) {
-            _dueDate = Calendar.current.date(bySetting: .hour, value: 1, of: newDate)!
-        }
-    }
-    
-    init(title: String, startDate: Date, dueDate: Date, priority: ProjectPriority, notes: String) {
-        self.id = UUID().uuidString
-        self.title = title
-        _startDate = startDate
-        _dueDate = dueDate
-        self.priority = priority
-        self.notes = notes
-    }
-}
-
 protocol ProjectSelectionDelegate: class {
     func projectSelected(_ newProject: Project)
 }
@@ -71,6 +18,7 @@ class ProjectCell: UITableViewCell {
     @IBOutlet weak var dueDateLabel: UILabel!
     @IBOutlet weak var priorityLabel: UILabel!
     @IBOutlet weak var notesLabel: UILabel!
+    @IBOutlet weak var progressIndicatorView: UIView!
 }
 
 class MasterViewController: UITableViewController {
@@ -81,12 +29,12 @@ class MasterViewController: UITableViewController {
     var projects: [Project]!
     var projectPlaceholder: Project?
     var isEditView: Bool = false
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        projects = Array(repeating: Project.init(title: "Final Year Project", startDate: Date(), dueDate: Date(), priority: .High, notes: "Something has to be done on time before it ends."), count: 3)
-        
+        projects = Utilities.fetchFromDBContext(entityName: "Project")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -95,6 +43,7 @@ class MasterViewController: UITableViewController {
             
             popover?.isEditView = isEditView ? true : false
             popover?.projectPlaceholder = projectPlaceholder
+            popover?.delegate = self
             popover?.saveFunction = {(popoverViewController) in
                 self.saveProject(popoverViewController as! AddEditProjectViewController)
             }
@@ -126,7 +75,7 @@ class MasterViewController: UITableViewController {
         cell.dueDateLabel.text = formatter.string(from: projects[indexPath.row].dueDate)
         cell.priorityLabel.text = projects[indexPath.row].priority.getAsString()
         cell.notesLabel.text = projects[indexPath.row].notes
-
+        cell.progressIndicatorView.backgroundColor = projects[indexPath.row].progress.color
         return cell
     }
     
@@ -151,7 +100,9 @@ class MasterViewController: UITableViewController {
     
     func deleteAction (at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .normal, title: "Delete") { (action, view, completion) in
-            Utilities.showConfirmationAlert(title: "Are you sure?", message: "Delete project: " + self.projects[indexPath.row].title, yesAction: {() in
+            Utilities.showConfirmationAlert(title: "Are you sure?", message: "Delete project: " + self.projects[indexPath.row].title!, yesAction: {() in
+                Utilities.getDBContext().delete(self.projects[indexPath.row])
+                Utilities.saveDBContext()
                 self.projects.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 }, caller: self)
@@ -162,40 +113,39 @@ class MasterViewController: UITableViewController {
         return action
     }
     
-    // TODO: Show an alert when succesfully saved
     func saveProject(_ data: AddEditProjectViewController) {
-        if var project = projectPlaceholder {
+        if let project = projectPlaceholder {
             project.title = data.titleTextField.text!
             project.startDate = data.startDate!
             project.dueDate = data.dueDate!
             project.priority = assignPriority(for: data.prioritySegmentControl.selectedSegmentIndex)
             project.notes = data.notesTextField.text!
-            
+
             if !project.isAddedToCalendar && data.addToCalendarToggle.isOn {
                 addEventToCalendar(for: project)
                 project.isAddedToCalendar = true
             }
-            
-            if let projectIndex = projects.firstIndex(where: {$0.id == project.id}) {
+
+            if let projectIndex = projects.firstIndex(where: {$0.projectId == project.projectId}) {
                 projects[projectIndex] = project
             }
         } else {
-            var project =
-                Project(
-                    title: data.titleTextField.text!,
-                    startDate: data.startDate!,
-                    dueDate: data.dueDate!,
-                    priority: assignPriority(for: data.prioritySegmentControl.selectedSegmentIndex),
-                    notes: data.notesTextField.text!)
-            
+            let project = Project(context: Utilities.getDBContext())
+            project.title = data.titleTextField.text!
+            project.startDate = data.startDate!
+            project.dueDate = data.dueDate!
+            project.priority = assignPriority(for: data.prioritySegmentControl.selectedSegmentIndex)
+            project.notes = data.notesTextField.text!
+
             if data.addToCalendarToggle.isOn {
                 addEventToCalendar(for: project)
                 project.isAddedToCalendar = true
             }
-            
+
             self.projects.append(project)
-            
+
         }
+        Utilities.saveDBContext()
         self.tableView.reloadData()
     }
     
@@ -234,5 +184,24 @@ class MasterViewController: UITableViewController {
                 preconditionFailure("Failed to save event with error : \(String(describing: error)) or access not granted")
             }
         }
+    }
+    
+}
+
+extension MasterViewController: TasksChangedDelegate {
+    func tasksChanged() {
+        let indexPath = tableView.indexPathForSelectedRow
+        tableView.reloadData()
+        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+    }
+}
+
+extension MasterViewController: ItemActionDelegate {
+    func itemAdded(title: String) {
+        Utilities.showInformationAlert(title: "Alert", message: "New project: \(title)\nSuccessfully Added", caller: self)
+    }
+    
+    func itemEdited(title: String) {
+        Utilities.showInformationAlert(title: "Alert", message: "Project: \(title)\nSuccessfully Edited", caller: self)
     }
 }

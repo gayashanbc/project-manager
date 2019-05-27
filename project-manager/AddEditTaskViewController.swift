@@ -26,6 +26,8 @@ class AddEditTaskViewController: UIViewController {
     var startDate: Date?
     var dueDate: Date?
     
+    weak var delegate: ItemActionDelegate?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,13 +43,16 @@ class AddEditTaskViewController: UIViewController {
             titleTextField.text = task.title
             notesTextField.text = task.notes
             datePicker.date = task.startDate
-            progressTitleLabel.text = "Progress = " + String(task.progress.rounded()) + "%"
-            progressSlider.value = task.progress
+            progressTitleLabel.text = "Progress = " + String((task.progress * 100).rounded()) + "%"
+            progressSlider.value = task.progress * 100
             addNotificationToggle.isOn = !task.isAddedNotification
             addNotificationToggle.isEnabled = !task.isAddedNotification
             
             startDate = task.startDate
             dueDate = task.dueDate
+            
+            datePicker.minimumDate = task.project?.startDate
+            datePicker.maximumDate = task.project?.dueDate
         }
         
         
@@ -57,37 +62,19 @@ class AddEditTaskViewController: UIViewController {
     @IBAction func dateSegmentControlValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 1:
-            datePicker.minimumDate = startDate
-            datePicker.maximumDate = nil
             datePicker.date = dueDate!
         default:
-            datePicker.minimumDate = nil
-            datePicker.maximumDate = dueDate
             datePicker.date = startDate!
         }
     }
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
-        
-        // TODO: This works when used directly without let or guarad, fix this.
         switch dateSegmentControl.selectedSegmentIndex {
         case 1:
-            if let minDate = datePicker.minimumDate {
-                if sender.date >= minDate {
-                    dueDate = sender.date
-                }
-            } else {
                 dueDate = sender.date
-            }
             
         default:
-            if let maxDate = datePicker.maximumDate {
-                if sender.date <= maxDate {
-                    startDate = sender.date
-                }
-            } else {
                 startDate = sender.date
-            }
         }
     }
     
@@ -97,8 +84,6 @@ class AddEditTaskViewController: UIViewController {
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
         if let reset = resetToDefaults {
-            datePicker.minimumDate = nil
-            datePicker.maximumDate = nil
             reset()
         }
         self.dismiss(animated: true, completion: nil)
@@ -107,6 +92,9 @@ class AddEditTaskViewController: UIViewController {
     func validateFields() -> Bool {
         if titleTextField.text == "" {
             Utilities.showInformationAlert(title: "Error", message: "Task name can't be empty", caller: self)
+            return false
+        } else if startDate! > dueDate! {
+            Utilities.showInformationAlert(title: "Error", message: "Task start date must be before the due date", caller: self)
             return false
         }
         return true
@@ -120,11 +108,10 @@ class AddEditTaskViewController: UIViewController {
         if validateFields() {
             save(self)
             if let reset = resetToDefaults {
-                datePicker.minimumDate = nil
-                datePicker.maximumDate = nil
                 reset()
             }
             self.dismiss(animated: true, completion: nil)
+            isEditView! ? delegate?.itemEdited(title: self.titleTextField.text!) : delegate?.itemAdded(title: self.titleTextField.text!)
         }
     }
     

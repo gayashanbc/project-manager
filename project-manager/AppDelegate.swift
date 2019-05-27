@@ -22,9 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let detailViewController = splitViewController.viewControllers.last as? DetailViewController
             else { fatalError() }
         
-//        let firstProject = masterViewController.projects.first
-//        detailViewController.project = firstProject
         masterViewController.delegate = detailViewController
+        detailViewController.delegate = masterViewController
         return true
     }
 

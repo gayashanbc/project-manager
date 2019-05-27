@@ -23,7 +23,7 @@ class AddEditProjectViewController: UIViewController {
     var isEditView: Bool?
     var startDate: Date?
     var dueDate: Date?
-    
+    weak var delegate: ItemActionDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +34,6 @@ class AddEditProjectViewController: UIViewController {
 
         startDate = Calendar.current.date(bySetting: .hour, value: 0, of: Date())
         dueDate = Calendar.current.date(bySetting: .hour, value: 1, of: Date())
-        
-        datePicker.maximumDate = dueDate
-        datePicker.minimumDate = startDate
         
         if let project = projectPlaceholder  {
             titleTextField.text = project.title
@@ -56,29 +53,18 @@ class AddEditProjectViewController: UIViewController {
     @IBAction func dataSegmentControlValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 1:
-            datePicker.minimumDate = startDate
-            datePicker.maximumDate = nil
             datePicker.date = dueDate!
         default:
-            datePicker.minimumDate = nil
-            datePicker.maximumDate = dueDate
             datePicker.date = startDate!
         }
     }
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
-        guard let minDate = datePicker.minimumDate else { return }
-        guard let maxDate = datePicker.maximumDate else { return }
-        
         switch dateSegmentControl.selectedSegmentIndex {
         case 1:
-            if sender.date >= minDate {
                 dueDate = sender.date
-            }
         default:
-            if sender.date <= maxDate {
                 startDate = sender.date
-            }
         }
     }
     
@@ -95,12 +81,16 @@ class AddEditProjectViewController: UIViewController {
                 reset()
             }
             self.dismiss(animated: true, completion: nil)
+            isEditView! ? delegate?.itemEdited(title: self.titleTextField.text!) : delegate?.itemAdded(title: self.titleTextField.text!)
         }
     }
     
     func validateFields() -> Bool {
         if titleTextField.text == "" {
             Utilities.showInformationAlert(title: "Error", message: "Project name can't be empty", caller: self)
+            return false
+        } else if startDate! > dueDate! {
+            Utilities.showInformationAlert(title: "Error", message: "Project start date must be before the due date", caller: self)
             return false
         }
         return true
